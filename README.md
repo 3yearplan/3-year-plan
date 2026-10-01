@@ -8,9 +8,9 @@ A strategy game project inspired by sandbox strategy games. The name "3-Year Pla
 
 ### 1. Project Setup
 
-* [ ] Set up the project
-* [ ] Get the game running
-* [ ] Understand the existing project structure enough to modify it
+* [x] Set up the project
+* [x] Get the game running
+* [x] Understand the existing project structure enough to modify it
 * [ ] Create a basic development version
 
 ### 2. Map
