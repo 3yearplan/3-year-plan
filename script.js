@@ -26,7 +26,8 @@ const countries = {
 
 const countryNames = {
     blue: "Blue Country",
-    red: "Red Country"
+    red: "Red Country",
+    green: "Green Country"
 };
 
 let selectedCountry = "blue";
