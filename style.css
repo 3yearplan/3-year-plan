@@ -10,6 +10,20 @@ h1 {
     margin: 20px;
 }
 
+#controls {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+#selected {
+    margin: 8px;
+}
+
 #gameMap {
     border: 2px solid white;
     image-rendering: pixelated;
