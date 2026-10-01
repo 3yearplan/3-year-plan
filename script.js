@@ -8,6 +8,33 @@ const pixelSize = 20;
 canvas.width = width * pixelSize;
 canvas.height = height * pixelSize;
 
+
+// ====================
+// COUNTRY DATA
+// ====================
+
+const countries = {
+    blue: {
+        name: "Blue Country",
+        color: "#4a90e2"
+    },
+
+    red: {
+        name: "Red Country",
+        color: "#e74c3c"
+    },
+
+    green: {
+        name: "Green Country",
+        color: "#2ecc71"
+    }
+};
+
+
+// ====================
+// MAP DATA
+// ====================
+
 const map = [];
 
 for (let y = 0; y < height; y++) {
@@ -18,31 +45,35 @@ for (let y = 0; y < height; y++) {
     }
 }
 
-const countries = {
-    blue: "#4a90e2",
-    red: "#e74c3c",
-    green: "#2ecc71"
-};
 
-const countryNames = {
-    blue: "Blue Country",
-    red: "Red Country",
-    green: "Green Country"
-};
+// ====================
+// GAME VARIABLES
+// ====================
 
 let selectedCountry = "blue";
 let mouseDown = false;
+
+
+// ====================
+// COUNTRY SELECTION
+// ====================
 
 function selectCountry(country) {
     selectedCountry = country;
 
     if (country === null) {
-        document.getElementById("selected").textContent = "Selected: Eraser";
+        document.getElementById("selected").textContent =
+            "Selected: Eraser";
     } else {
         document.getElementById("selected").textContent =
-            "Selected: " + countryNames[country];
+            "Selected: " + countries[country].name;
     }
 }
+
+
+// ====================
+// DRAW MAP
+// ====================
 
 function drawMap() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -52,8 +83,8 @@ function drawMap() {
 
             const country = map[y][x];
 
-            if (country) {
-                ctx.fillStyle = countries[country];
+            if (country && countries[country]) {
+                ctx.fillStyle = countries[country].color;
             } else {
                 ctx.fillStyle = "#333";
             }
@@ -66,6 +97,7 @@ function drawMap() {
             );
 
             ctx.strokeStyle = "#444";
+
             ctx.strokeRect(
                 x * pixelSize,
                 y * pixelSize,
@@ -75,6 +107,11 @@ function drawMap() {
         }
     }
 }
+
+
+// ====================
+// PAINT PIXEL
+// ====================
 
 function paintPixel(event) {
     const rect = canvas.getBoundingClientRect();
@@ -93,6 +130,11 @@ function paintPixel(event) {
     }
 }
 
+
+// ====================
+// MOUSE CONTROLS
+// ====================
+
 canvas.addEventListener("mousedown", (event) => {
     mouseDown = true;
     paintPixel(event);
@@ -107,5 +149,10 @@ canvas.addEventListener("mousemove", (event) => {
 document.addEventListener("mouseup", () => {
     mouseDown = false;
 });
+
+
+// ====================
+// START GAME
+// ====================
 
 drawMap();
