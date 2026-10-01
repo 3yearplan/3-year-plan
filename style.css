@@ -7,5 +7,10 @@ body {
 }
 
 h1 {
-    margin-top: 40px;
+    margin: 20px;
+}
+
+#gameMap {
+    border: 2px solid white;
+    image-rendering: pixelated;
 }
