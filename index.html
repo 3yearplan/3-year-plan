@@ -10,6 +10,15 @@
 
     <h1>3-Year Plan</h1>
 
+    <div id="controls">
+        <button onclick="selectCountry('blue')">Blue Country</button>
+        <button onclick="selectCountry('red')">Red Country</button>
+        <button onclick="selectCountry('green')">Green Country</button>
+        <button onclick="selectCountry(null)">Erase</button>
+    </div>
+
+    <p id="selected">Selected: Blue Country</p>
+
     <canvas id="gameMap"></canvas>
 
     <script src="script.js"></script>
