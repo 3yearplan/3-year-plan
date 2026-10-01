@@ -11,11 +11,11 @@ A strategy game project inspired by sandbox strategy games. The name "3-Year Pla
 * [x] Set up the project
 * [x] Get the game running
 * [x] Understand the existing project structure enough to modify it
-* [ ] Create a basic development version
+* [x] Create a basic development version
 
 ### 2. Map
 
-* [ ] Set up the map
+* [x] Set up the map
 * [ ] Make countries and territories work
 * [ ] Make borders change smoothly
 * [ ] Add territory ownership
