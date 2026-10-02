@@ -1,8 +1,6 @@
 # 3-year-plan
 This will be worked on for 3 years before being transferred and finished after. unless if everything goes well.
-# 3-Year Plan
 
-A strategy game project inspired by sandbox strategy games. The name "3-Year Plan" is a reference to historical Five-Year Plans and does not represent an actual deadline.
 
 ## Development Roadmap
 
