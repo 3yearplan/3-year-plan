@@ -94,13 +94,13 @@ function drawMap() {
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
 
-            const country = map[y][x];
+            const country = map[y][x].country;
 
-            if (country && countries[country]) {
-                ctx.fillStyle = countries[country].color;
-            } else {
-                ctx.fillStyle = "#333";
-            }
+if (country && countries[country]) {
+    ctx.fillStyle = countries[country].color;
+} else {
+    ctx.fillStyle = "#333";
+}
 
             ctx.fillRect(
                 x * pixelSize,
