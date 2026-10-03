@@ -47,14 +47,18 @@ const countries = {
 
 const map = [];
 
+let nextTerritoryID = 1;
+
 for (let y = 0; y < height; y++) {
     map[y] = [];
 
     for (let x = 0; x < width; x++) {
         map[y][x] = {
             country: null,
-            territory: null
+            territory: nextTerritoryID
         };
+
+        nextTerritoryID++;
     }
 }
 
