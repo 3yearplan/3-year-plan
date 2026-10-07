@@ -49,13 +49,20 @@ const map = [];
 
 let nextTerritoryID = 1;
 
+const territories = {};
+
 for (let y = 0; y < height; y++) {
     map[y] = [];
 
     for (let x = 0; x < width; x++) {
+        const territoryID = nextTerritoryID;
+
         map[y][x] = {
-            country: null,
-            territory: nextTerritoryID
+            territory: territoryID
+        };
+
+        territories[territoryID] = {
+            owner: null
         };
 
         nextTerritoryID++;
