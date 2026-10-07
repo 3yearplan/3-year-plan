@@ -140,6 +140,7 @@ if (country && countries[country]) {
 function findTerritories() {
     const visited = [];
     const foundTerritories = [];
+    let territoryID = 1;
 
     for (let y = 0; y < height; y++) {
         visited[y] = [];
@@ -196,16 +197,22 @@ function findTerritories() {
                 }
             }
 
+            for (const [px, py] of territory) {
+                map[py][px].territory = territoryID;
+            }
+
             foundTerritories.push({
+                id: territoryID,
                 country: country,
                 pixels: territory
             });
+
+            territoryID++;
         }
     }
 
     return foundTerritories;
 }
-
 function paintPixel(event) {
     const rect = canvas.getBoundingClientRect();
 
@@ -224,11 +231,11 @@ territories[territoryID].owner = selectedCountry;
 
 map[y][x].country = selectedCountry;
 
-drawMap();
-
 const foundTerritories = findTerritories();
 
 console.log(foundTerritories);
+
+drawMap();
     }
 }
 
