@@ -149,8 +149,13 @@ function paintPixel(event) {
     );
 
     if (x >= 0 && x < width && y >= 0 && y < height) {
-        map[y][x].country = selectedCountry;
-        drawMap();
+        const territoryID = map[y][x].territory;
+
+territories[territoryID].owner = selectedCountry;
+
+map[y][x].country = selectedCountry;
+
+drawMap();
     }
 }
 
