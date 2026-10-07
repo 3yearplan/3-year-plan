@@ -137,6 +137,75 @@ if (country && countries[country]) {
 // PAINT PIXEL
 // ====================
 
+function findTerritories() {
+    const visited = [];
+    const foundTerritories = [];
+
+    for (let y = 0; y < height; y++) {
+        visited[y] = [];
+
+        for (let x = 0; x < width; x++) {
+            visited[y][x] = false;
+        }
+    }
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+
+            if (visited[y][x]) {
+                continue;
+            }
+
+            const country = map[y][x].country;
+
+            if (country === null) {
+                visited[y][x] = true;
+                continue;
+            }
+
+            const territory = [];
+            const queue = [[x, y]];
+
+            visited[y][x] = true;
+
+            while (queue.length > 0) {
+                const [currentX, currentY] = queue.shift();
+
+                territory.push([currentX, currentY]);
+
+                const neighbors = [
+                    [currentX + 1, currentY],
+                    [currentX - 1, currentY],
+                    [currentX, currentY + 1],
+                    [currentX, currentY - 1]
+                ];
+
+                for (const [nx, ny] of neighbors) {
+
+                    if (
+                        nx >= 0 &&
+                        nx < width &&
+                        ny >= 0 &&
+                        ny < height &&
+                        !visited[ny][nx] &&
+                        map[ny][nx].country === country
+                    ) {
+                        visited[ny][nx] = true;
+                        queue.push([nx, ny]);
+                    }
+                }
+            }
+
+            foundTerritories.push({
+                country: country,
+                pixels: territory
+            });
+        }
+    }
+
+    return foundTerritories;
+}
+
 function paintPixel(event) {
     const rect = canvas.getBoundingClientRect();
 
@@ -156,6 +225,10 @@ territories[territoryID].owner = selectedCountry;
 map[y][x].country = selectedCountry;
 
 drawMap();
+
+const foundTerritories = findTerritories();
+
+console.log(foundTerritories);
     }
 }
 
