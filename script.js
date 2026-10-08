@@ -235,6 +235,31 @@ const foundTerritories = findTerritories();
 
 console.log(foundTerritories);
 
+function createStartingMap() {
+    // Blue starting territory
+    for (let y = 5; y < 15; y++) {
+        for (let x = 5; x < 15; x++) {
+            map[y][x].country = "blue";
+        }
+    }
+
+    // Red starting territory
+    for (let y = 5; y < 15; y++) {
+        for (let x = 25; x < 35; x++) {
+            map[y][x].country = "red";
+        }
+    }
+
+    // Green starting territory
+    for (let y = 17; y < 22; y++) {
+        for (let x = 15; x < 25; x++) {
+            map[y][x].country = "green";
+        }
+    }
+
+    findTerritories();
+}
+        
 drawMap();
     }
 }
@@ -264,4 +289,5 @@ document.addEventListener("mouseup", () => {
 // START GAME
 // ====================
 
+createStartingMap();
 drawMap();
