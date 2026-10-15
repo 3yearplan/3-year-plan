@@ -250,6 +250,7 @@ function createStartingMap() {
 function drawMap() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Draw the map
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
 
@@ -267,8 +268,15 @@ function drawMap() {
                 pixelSize,
                 pixelSize
             );
+        }
+    }
 
-            ctx.strokeStyle = "#444";
+    // Draw the normal grid
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 1;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
 
             ctx.strokeRect(
                 x * pixelSize,
@@ -278,9 +286,10 @@ function drawMap() {
             );
         }
     }
+
+    // Draw territory borders
+    drawTerritoryBorders();
 }
-
-
 // ====================
 // PAINT PIXEL
 // ====================
