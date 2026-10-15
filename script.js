@@ -164,10 +164,15 @@ function findTerritories() {
                 map[py][px].territory = territoryID;
             }
 
-            foundTerritories.push({
-                id: territoryID,
-                country: country,
-                pixels: territory
+            territories[territoryID] = {
+    owner: country
+};
+
+foundTerritories.push({
+    id: territoryID,
+    country: country,
+    pixels: territory
+});
             });
 
             territoryID++;
@@ -241,6 +246,7 @@ function createStartingMap() {
     }
 
     findTerritories();
+    
 }
 
 // ====================
@@ -289,6 +295,67 @@ function drawMap() {
 
     // Draw territory borders
     drawTerritoryBorders();
+}
+function drawTerritoryBorders() {
+    ctx.strokeStyle = "#111";
+    ctx.lineWidth = 4;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+
+            const currentCountry = map[y][x].country;
+
+            // Right border
+            if (x < width - 1) {
+                const rightCountry = map[y][x + 1].country;
+
+                if (
+                    currentCountry !== null &&
+                    rightCountry !== currentCountry
+                ) {
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        (x + 1) * pixelSize,
+                        y * pixelSize
+                    );
+
+                    ctx.lineTo(
+                        (x + 1) * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.stroke();
+                }
+            }
+
+            // Bottom border
+            if (y < height - 1) {
+                const bottomCountry = map[y + 1][x].country;
+
+                if (
+                    currentCountry !== null &&
+                    bottomCountry !== currentCountry
+                ) {
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        x * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.lineTo(
+                        (x + 1) * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    ctx.lineWidth = 1;
 }
 // ====================
 // PAINT PIXEL
