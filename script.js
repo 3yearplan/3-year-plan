@@ -304,4 +304,7 @@ document.addEventListener("mouseup", () => {
 // ====================
 
 createStartingMap();
-drawMap();
+
+setTimeout(() => {
+    drawMap();
+}, 100);
