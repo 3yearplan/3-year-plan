@@ -382,7 +382,15 @@ function paintPixel(event) {
 
         const foundTerritories = findTerritories();
 
-        console.log(foundTerritories);
+console.log("Territories:", foundTerritories);
+
+for (const territory of foundTerritories) {
+    console.log(
+        "Territory " + territory.id +
+        " belongs to " + countries[territory.country].name +
+        " and has " + territory.pixels.length + " pixels."
+    );
+}
 
         drawMap();
     }
