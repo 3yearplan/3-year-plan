@@ -58,6 +58,7 @@ for (let y = 0; y < height; y++) {
         const territoryID = nextTerritoryID;
 
         map[y][x] = {
+            country: null,
             territory: territoryID
         };
 
@@ -96,45 +97,7 @@ function selectCountry(country) {
 
 
 // ====================
-// DRAW MAP
-// ====================
-
-function drawMap() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-
-            const country = map[y][x].country;
-
-if (country && countries[country]) {
-    ctx.fillStyle = countries[country].color;
-} else {
-    ctx.fillStyle = "#333";
-}
-
-            ctx.fillRect(
-                x * pixelSize,
-                y * pixelSize,
-                pixelSize,
-                pixelSize
-            );
-
-            ctx.strokeStyle = "#444";
-
-            ctx.strokeRect(
-                x * pixelSize,
-                y * pixelSize,
-                pixelSize,
-                pixelSize
-            );
-        }
-    }
-}
-
-
-// ====================
-// PAINT PIXEL
+// FIND TERRITORIES
 // ====================
 
 function findTerritories() {
@@ -213,29 +176,14 @@ function findTerritories() {
 
     return foundTerritories;
 }
-function paintPixel(event) {
-    const rect = canvas.getBoundingClientRect();
 
-    const x = Math.floor(
-        (event.clientX - rect.left) / pixelSize
-    );
 
-    const y = Math.floor(
-        (event.clientY - rect.top) / pixelSize
-    );
-
-    if (x >= 0 && x < width && y >= 0 && y < height) {
-        const territoryID = map[y][x].territory;
-
-territories[territoryID].owner = selectedCountry;
-
-map[y][x].country = selectedCountry;
-
-const foundTerritories = findTerritories();
-
-console.log(foundTerritories);
+// ====================
+// CREATE STARTING MAP
+// ====================
 
 function createStartingMap() {
+
     // Blue starting territory
     for (let y = 5; y < 15; y++) {
         for (let x = 5; x < 15; x++) {
@@ -259,8 +207,74 @@ function createStartingMap() {
 
     findTerritories();
 }
-        
-drawMap();
+
+
+// ====================
+// DRAW MAP
+// ====================
+
+function drawMap() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+
+            const country = map[y][x].country;
+
+            if (country && countries[country]) {
+                ctx.fillStyle = countries[country].color;
+            } else {
+                ctx.fillStyle = "#333";
+            }
+
+            ctx.fillRect(
+                x * pixelSize,
+                y * pixelSize,
+                pixelSize,
+                pixelSize
+            );
+
+            ctx.strokeStyle = "#444";
+
+            ctx.strokeRect(
+                x * pixelSize,
+                y * pixelSize,
+                pixelSize,
+                pixelSize
+            );
+        }
+    }
+}
+
+
+// ====================
+// PAINT PIXEL
+// ====================
+
+function paintPixel(event) {
+    const rect = canvas.getBoundingClientRect();
+
+    const x = Math.floor(
+        (event.clientX - rect.left) / pixelSize
+    );
+
+    const y = Math.floor(
+        (event.clientY - rect.top) / pixelSize
+    );
+
+    if (x >= 0 && x < width && y >= 0 && y < height) {
+
+        const territoryID = map[y][x].territory;
+
+        territories[territoryID].owner = selectedCountry;
+
+        map[y][x].country = selectedCountry;
+
+        const foundTerritories = findTerritories();
+
+        console.log(foundTerritories);
+
+        drawMap();
     }
 }
 
