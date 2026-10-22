@@ -232,6 +232,10 @@ function drawMap() {
     );
 
 
+    // Find current territories
+    const foundTerritories = findTerritories();
+
+
     // Draw colors
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
@@ -253,6 +257,161 @@ function drawMap() {
         }
     }
 
+
+    // Draw normal grid
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 1;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+
+            ctx.strokeRect(
+                x * pixelSize,
+                y * pixelSize,
+                pixelSize,
+                pixelSize
+            );
+        }
+    }
+
+
+    // Draw country borders
+    ctx.strokeStyle = "#111";
+    ctx.lineWidth = 3;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+
+            const country = map[y][x].country;
+
+
+            // Right border
+            if (x < width - 1) {
+
+                const rightCountry =
+                    map[y][x + 1].country;
+
+                if (
+                    country !== rightCountry &&
+                    (country || rightCountry)
+                ) {
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        (x + 1) * pixelSize,
+                        y * pixelSize
+                    );
+
+                    ctx.lineTo(
+                        (x + 1) * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.stroke();
+                }
+            }
+
+
+            // Bottom border
+            if (y < height - 1) {
+
+                const bottomCountry =
+                    map[y + 1][x].country;
+
+                if (
+                    country !== bottomCountry &&
+                    (country || bottomCountry)
+                ) {
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        x * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.lineTo(
+                        (x + 1) * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+
+    // Draw territory borders
+    ctx.strokeStyle = "#777";
+    ctx.lineWidth = 2;
+
+    for (const territory of foundTerritories) {
+
+        for (const [x, y] of territory.pixels) {
+
+            const country = map[y][x].country;
+
+            // Right side
+            if (x < width - 1) {
+
+                const neighbor =
+                    map[y][x + 1];
+
+                if (
+                    neighbor.country === country &&
+                    neighbor.territory !== territory.id
+                ) {
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        (x + 1) * pixelSize,
+                        y * pixelSize
+                    );
+
+                    ctx.lineTo(
+                        (x + 1) * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.stroke();
+                }
+            }
+
+
+            // Bottom side
+            if (y < height - 1) {
+
+                const neighbor =
+                    map[y + 1][x];
+
+                if (
+                    neighbor.country === country &&
+                    neighbor.territory !== territory.id
+                ) {
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        x * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.lineTo(
+                        (x + 1) * pixelSize,
+                        (y + 1) * pixelSize
+                    );
+
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    ctx.lineWidth = 1;
+}
 
     // Draw grid
     ctx.strokeStyle = "#444";
