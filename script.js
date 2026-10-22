@@ -276,6 +276,74 @@ function paintPixel(event) {
         / pixelSize
     );
 
+    if (
+        x < 0 ||
+        x >= width ||
+        y < 0 ||
+        y >= height
+    ) {
+        return;
+    }
+
+    // Eraser can remove any territory
+    if (selectedCountry === null) {
+        map[y][x].country = null;
+        drawMap();
+        return;
+    }
+
+    // Check the four neighboring squares
+    const neighbors = [
+        [x + 1, y],
+        [x - 1, y],
+        [x, y + 1],
+        [x, y - 1]
+    ];
+
+    let touchingOwnCountry = false;
+
+    for (const [nx, ny] of neighbors) {
+
+        if (
+            nx >= 0 &&
+            nx < width &&
+            ny >= 0 &&
+            ny < height
+        ) {
+            if (map[ny][nx].country === selectedCountry) {
+                touchingOwnCountry = true;
+                break;
+            }
+        }
+    }
+
+    // Allow the first pixel of a country
+    // if that country does not exist yet
+    let countryAlreadyExists = false;
+
+    for (let row = 0; row < height; row++) {
+        for (let column = 0; column < width; column++) {
+
+            if (map[row][column].country === selectedCountry) {
+                countryAlreadyExists = true;
+                break;
+            }
+        }
+
+        if (countryAlreadyExists) {
+            break;
+        }
+    }
+
+    if (
+        touchingOwnCountry ||
+        !countryAlreadyExists
+    ) {
+        map[y][x].country = selectedCountry;
+        drawMap();
+    }
+}
+
 
     if (
         x >= 0 &&
