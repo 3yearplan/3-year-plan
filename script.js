@@ -52,7 +52,8 @@ for (let y = 0; y < height; y++) {
 
     for (let x = 0; x < width; x++) {
         map[y][x] = {
-            country: null
+            country: null,
+            territory: null
         };
     }
 }
@@ -80,6 +81,91 @@ function selectCountry(country) {
         document.getElementById("selected").textContent =
             "Selected: " + countries[country].name;
     }
+}
+
+
+// ====================
+// FIND TERRITORIES
+// ====================
+
+function findTerritories() {
+
+    const visited = [];
+
+    for (let y = 0; y < height; y++) {
+        visited[y] = [];
+
+        for (let x = 0; x < width; x++) {
+            visited[y][x] = false;
+        }
+    }
+
+    const foundTerritories = [];
+    let territoryID = 1;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+
+            if (visited[y][x]) {
+                continue;
+            }
+
+            const country = map[y][x].country;
+
+            if (country === null) {
+                visited[y][x] = true;
+                continue;
+            }
+
+            const territory = [];
+            const queue = [[x, y]];
+
+            visited[y][x] = true;
+
+            while (queue.length > 0) {
+
+                const [currentX, currentY] = queue.shift();
+
+                territory.push([currentX, currentY]);
+
+                const neighbors = [
+                    [currentX + 1, currentY],
+                    [currentX - 1, currentY],
+                    [currentX, currentY + 1],
+                    [currentX, currentY - 1]
+                ];
+
+                for (const [nx, ny] of neighbors) {
+
+                    if (
+                        nx >= 0 &&
+                        nx < width &&
+                        ny >= 0 &&
+                        ny < height &&
+                        !visited[ny][nx] &&
+                        map[ny][nx].country === country
+                    ) {
+                        visited[ny][nx] = true;
+                        queue.push([nx, ny]);
+                    }
+                }
+            }
+
+            for (const [px, py] of territory) {
+                map[py][px].territory = territoryID;
+            }
+
+            foundTerritories.push({
+                id: territoryID,
+                country: country,
+                pixels: territory
+            });
+
+            territoryID++;
+        }
+    }
+
+    return foundTerritories;
 }
 
 
@@ -127,6 +213,8 @@ function createStartingMap() {
             map[y][x].country = "green";
         }
     }
+
+    findTerritories();
 }
 
 
@@ -285,77 +373,24 @@ function paintPixel(event) {
         return;
     }
 
-    // Eraser can remove any territory
+
+    // Eraser
     if (selectedCountry === null) {
+
         map[y][x].country = null;
+
+        findTerritories();
         drawMap();
+
         return;
     }
 
-    // Check the four neighboring squares
-    const neighbors = [
-        [x + 1, y],
-        [x - 1, y],
-        [x, y + 1],
-        [x, y - 1]
-    ];
 
-    let touchingOwnCountry = false;
+    // Paint selected country
+    map[y][x].country = selectedCountry;
 
-    for (const [nx, ny] of neighbors) {
-
-        if (
-            nx >= 0 &&
-            nx < width &&
-            ny >= 0 &&
-            ny < height
-        ) {
-            if (map[ny][nx].country === selectedCountry) {
-                touchingOwnCountry = true;
-                break;
-            }
-        }
-    }
-
-    // Allow the first pixel of a country
-    // if that country does not exist yet
-    let countryAlreadyExists = false;
-
-    for (let row = 0; row < height; row++) {
-        for (let column = 0; column < width; column++) {
-
-            if (map[row][column].country === selectedCountry) {
-                countryAlreadyExists = true;
-                break;
-            }
-        }
-
-        if (countryAlreadyExists) {
-            break;
-        }
-    }
-
-    if (
-        touchingOwnCountry ||
-        !countryAlreadyExists
-    ) {
-        map[y][x].country = selectedCountry;
-        drawMap();
-    }
-}
-
-
-    if (
-        x >= 0 &&
-        x < width &&
-        y >= 0 &&
-        y < height
-    ) {
-
-        map[y][x].country = selectedCountry;
-
-        drawMap();
-    }
+    findTerritories();
+    drawMap();
 }
 
 
