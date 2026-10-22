@@ -1,6 +1,6 @@
 # 3-year-plan
 This will be worked on for 3 years before being transferred and finished after. unless if everything goes well.
-
+Unfortunately, this project is slowing down due to evil school blocking plans, so the site will be continued on cloudfare and when it is done, i'll put the source code here. (it's going to be a while)
 
 ## Development Roadmap
 
